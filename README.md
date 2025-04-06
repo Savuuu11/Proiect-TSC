@@ -5,44 +5,7 @@ Savu Alin Ion 332CC
 
 ![Hardware Diagram](Images/diagram.png)
 
-@startuml
-skinparam rectangle {
-    BackgroundColor #EFEFEF
-    BorderColor Black
-}
 
-rectangle "USB-C\nPort" as USBC
-rectangle "Battery Charger\nMCP73831" as CHARGER
-rectangle "LiPo Battery\n(2500mAh)" as BAT
-rectangle "3.3V Regulator\n(3V3 LDO)" as REG33
-rectangle "ESP32-C6-WROOM-1\nMicrocontroller" as MCU
-rectangle "E-Ink Display\n7.5'' Waveshare\n(WSH-13187)" as DISPLAY
-rectangle "BME688\nTemp/Humidity Sensor" as SENSOR
-rectangle "Buttons\n3x Tactile Switch" as BUTTONS
-rectangle "MicroSD Slot\nConnector" as SD
-rectangle "RTC\nDS3231" as RTC
-rectangle "Fuel Gauge\nMAX17048" as GAUGE
-
-' Conexiuni alimentare
-USBC -down-> CHARGER : 5V
-CHARGER -down-> BAT : Charging
-CHARGER -right-> REG33 : 3.3V
-REG33 -right-> MCU : 3.3V
-REG33 --> SENSOR
-REG33 --> DISPLAY
-REG33 --> RTC
-REG33 --> SD
-REG33 --> GAUGE
-
-' Legături MCU cu componente
-MCU -up-> DISPLAY : SPI
-MCU -down-> SENSOR : I2C
-MCU -down-> RTC : I2C
-MCU -down-> GAUGE : I2C
-MCU -right-> BUTTONS : GPIO
-MCU -up-> SD : SPI
-
-@enduml
 ### BOM
 
 | Name of Component | Device                                                                       | Check Prices (J)                                                                                                     | DataSheet                                                                                                        |
