@@ -2,50 +2,45 @@
 Savu Alin Ion 332CC
 
 ### Diagrama
-flowchart TB
-  %% Power Section
-  USB_C[("USB-C Port")] --> ESD[ESD Protection]
-  ESD -->|5V| Charger[[L-Po Battery Charging Controller]]
-  Charger -->|Charges| Battery[("Li-Po Battery 2500mAh")]
-  Battery --> LDO[[3.3V LDO]]
-  
-  %% Microcontroller
-  LDO -->|3.3V| ESP32[[ESP32-C6]]
-  LDO -->|3.3V| VoltageSupervisor[[Voltage Supervisor]]
-  VoltageSupervisor --> Reset[Reset & Boot Button]
-  Reset --> ESP32
 
-  %% Display
-  LDO -->|3.3V| EPD_Power[EPD Power]
-  EPD_Power --> Display[[E-Paper Display Header]]
-  ESP32 -->|SPI| DisplayDriver[E-Paper Drive Circuit]
-  DisplayDriver --> Display
-  ESP32 -->|GPIO| DisplaySelector[Display Type Selector]
+@startuml
+skinparam rectangle {
+    BackgroundColor #EFEFEF
+    BorderColor Black
+}
 
-  %% Sensors
-  ESP32 -->|I2C| BME688[[Environmental Sensor BME688]]
-  ESP32 -->|I2C| RTC[[RTC Module DS3231SN]]
-  
-  %% Storage
-  ESP32 -->|SPI| SD_Card[SD Card]
-  ESP32 -->|SPI| NOR_Flash[[External NOR Flash 64MB\nW25Q02HZVED]]
+rectangle "USB-C\nPort" as USBC
+rectangle "Battery Charger\nMCP73831" as CHARGER
+rectangle "LiPo Battery\n(2500mAh)" as BAT
+rectangle "3.3V Regulator\n(3V3 LDO)" as REG33
+rectangle "ESP32-C6-WROOM-1\nMicrocontroller" as MCU
+rectangle "E-Ink Display\n7.5'' Waveshare\n(WSH-13187)" as DISPLAY
+rectangle "BME688\nTemp/Humidity Sensor" as SENSOR
+rectangle "Buttons\n3x Tactile Switch" as BUTTONS
+rectangle "MicroSD Slot\nConnector" as SD
+rectangle "RTC\nDS3231" as RTC
+rectangle "Fuel Gauge\nMAX17048" as GAUGE
 
-  %% Interfaces
-  ESP32 -->|I2C| Qwiic[[Qwilc/Stemma QT]]
-  ESP32 -->|GPIO| TestPads[Test Pads]
+' Conexiuni alimentare
+USBC -down-> CHARGER : 5V
+CHARGER -down-> BAT : Charging
+CHARGER -right-> REG33 : 3.3V
+REG33 -right-> MCU : 3.3V
+REG33 --> SENSOR
+REG33 --> DISPLAY
+REG33 --> RTC
+REG33 --> SD
+REG33 --> GAUGE
 
-  %% Additional Components
-  LDO -->|3.3V| LED_Reg[LED Voltage Regulator]
-  ESP32 -->|GPIO| OpenBook[OpenBook Schematic]
+' Legături MCU cu componente
+MCU -up-> DISPLAY : SPI
+MCU -down-> SENSOR : I2C
+MCU -down-> RTC : I2C
+MCU -down-> GAUGE : I2C
+MCU -right-> BUTTONS : GPIO
+MCU -up-> SD : SPI
 
-  %% Annotations
-  classDef power fill:#ffd700,stroke:#333;
-  classDef mcu fill:#4682b4,stroke:#333;
-  classDef sensor fill:#90EE90,stroke:#333;
-  class USB_C,ESD,Charger,Battery,LDO,LED_Reg power;
-  class ESP32,DisplayDriver mcu;
-  class BME688,RTC,Qwiic sensor;
-
+@enduml
 ### BOM
 
 | Name of Component | Device                                                                       | Check Prices (J)                                                                                                     | DataSheet                                                                                                        |
