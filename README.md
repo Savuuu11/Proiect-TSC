@@ -3,7 +3,7 @@ Savu Alin Ion 332CC
 
 ### Diagrama
 
-![Hardware Diagram](Images/diagram.png)
+![Hardware Diagram](Images/diagrama.png)
 
 
 ### BOM
