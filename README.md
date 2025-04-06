@@ -110,33 +110,47 @@ TSC-PROJECT
 
 --- 
 
-🛠 **Diagramă Simplificată**:  
-5. Interfață Utilizator – Butoane Tactile
-3 butoane cu feedback tactil pentru navigare, selecție și control.
+### 🔌 Interfețe și Alocare Resurse  
 
-Debouncing: Implementat prin circuite RC (hardware) sau algoritmi în firmware, prevenind semnale false.
+#### **Interfețe Utilizate**  
+| Protocol | Componente Conectate               |  
+|----------|------------------------------------|  
+| **SPI**  | E-Paper, Memorie Flash, Card SD    |  
+| **I²C**  | BME680, MAX17048, DS3231, Qwiic    |  
+| **GPIO** | Butoane, Semnale Control E-Paper   |  
+| **USB**  | Alimentare + Transfer Date (USB-C) |  
 
-6. Port USB-C
-Funcții Duale: Încărcare baterie și transfer de date (firmware, fișiere).
+---
 
-Securitate: Protecție ESD cu USBLC6-2SC6Y și rezistențe de terminare conforme standardelor USB.
+#### **Estimare Autonomie Baterie**  
+| Componentă             | Consum (Activ) | Consum (Standby) |  
+|------------------------|----------------|------------------|  
+| **ESP32-C6**           | 80 mA          | <10 µA           |  
+| **E-Paper (refresh)**  | 25 mA          | 0 mA             |  
+| **BME680**             | 3.6 mA         | 2.1 µA           |  
+| **MAX17048**           | -              | 50 µA            |  
+| **DS3231**             | 3.5 mA         | <1 µA            |  
+| **Total**              | ~150 mA        | ~100 µA          |  
 
-7. Conector Qwiic pentru Expansiune
-4 Pini Standardizați (VCC, GND, SDA, SCL) pentru conectarea rapidă a senzorilor I²C.
+---
 
-Utilizare: Prototipare sau adăugare de funcționalități suplimentare (ex: senzor de lumină).
+#### **Mapare Pini ESP32-C6**  
+| Pin   | Funcție Principală                 | Detalii                          |  
+|-------|------------------------------------|----------------------------------|  
+| GPIO1 | I²C SDA                            | Senzori BME680, MAX17048, DS3231 |  
+| GPIO2 | I²C SCL                            | Clock pentru magistrala I²C      |  
+| GPIO5 | SPI MISO (E-Paper)                 | Recepție date afișaj             |  
+| GPIO6 | SPI MOSI (E-Paper)                 | Transmitere date afișaj          |  
+| GPIO7 | SPI CLK (E-Paper)                  | Semnal ceas SPI                  |  
+| GPIO8 | SPI CS (E-Paper)                   | Selectare chip afișaj            |  
+| GPIO9 | DC (E-Paper)                       | Comutare date/comenzi            |  
+| GPIO10| RST (E-Paper)                      | Reset hardware afișaj            |  
+| GPIO11| BUSY (E-Paper)                     | Indică ocupare afișaj            |  
+| GPIO12| Buton #1                           | Navigare "Pagina Următoare"      |  
+| GPIO13| Buton #2                           | Navigare "Pagina Anterioară"     |  
+| GPIO14| Buton #3                           | Meniu/Selectare                  |  
+| GPIO15| ALERT (MAX17048)                   | Avertizare baterie scăzută       |  
+| GPIO19| SD Card CS                         | Selectare card MicroSD           |  
 
-8. Slot MicroSD
-Conector 112A-TAAR-R03: Suportă carduri microSD pentru stocare suplimentară (e-book-uri, log-uri).
+---
 
-Interfață Configurabilă: Funcționează în mod SPI sau SD standard, în funcție de cerințele firmware-ului.
-
-9. Ceas Real-Time (DS3231)
-Precizie: Abatere de doar ±2ppm în condiții normale.
-
-Backup Energie: Supercondensator sau baterie mică menține timpul chiar și fără alimentare principală.
-
-10. Memorie Flash Externă
-W25Q512JVEIQ: Conectată prin interfață Quad SPI, oferind viteză ridicată de citire/scriere (până la 133 MHz).
-
-Utilizare: Stochează firmware, setări și conținut utilizator (ex: cărți electronice).
