@@ -2,36 +2,49 @@
 Savu Alin Ion 332CC
 
 ### Diagrama
-```mermaid
 flowchart TB
-  USB-C -->|5V| Charger["Battery Charger (MCP73831)"]
-  Charger -->|Charging| LiPo["LiPo Battery (2500mAh)"]
-  LiPo --> LDO["3V3 LDO"]
+  %% Power Section
+  USB_C[("USB-C Port")] --> ESD[ESD Protection]
+  ESD -->|5V| Charger[[L-Po Battery Charging Controller]]
+  Charger -->|Charges| Battery[("Li-Po Battery 2500mAh")]
+  Battery --> LDO[[3.3V LDO]]
   
-  ESP32["ESP32-C6-WROOM-1"]
+  %% Microcontroller
+  LDO -->|3.3V| ESP32[[ESP32-C6]]
+  LDO -->|3.3V| VoltageSupervisor[[Voltage Supervisor]]
+  VoltageSupervisor --> Reset[Reset & Boot Button]
+  Reset --> ESP32
+
+  %% Display
+  LDO -->|3.3V| EPD_Power[EPD Power]
+  EPD_Power --> Display[[E-Paper Display Header]]
+  ESP32 -->|SPI| DisplayDriver[E-Paper Drive Circuit]
+  DisplayDriver --> Display
+  ESP32 -->|GPIO| DisplaySelector[Display Type Selector]
+
+  %% Sensors
+  ESP32 -->|I2C| BME688[[Environmental Sensor BME688]]
+  ESP32 -->|I2C| RTC[[RTC Module DS3231SN]]
   
-  LDO -->|3.3V| ESP32
-  LDO -->|3.3V| Display
-  LDO -->|3.3V| SDCard
-  LDO -->|3.3V| RTC
-  LDO -->|3.3V| BME688
-  LDO -->|3.3V| BatteryGauge
-  
-  ESP32 -- SPI --> Display["7.5 E-Ink Display (Waveshare WSH-13187)"]
-  ESP32 -- SPI --> SDCard["SD Card Connector"]
-  ESP32 -- GPIO --> Buttons["Buttons (3x)"]
-  ESP32 -- I2C --> BME688["Temp/Humidity Sensor (BME688)"]
-  ESP32 -- I2C --> BatteryGauge["Battery Fuel Gauge (MAX17048)"]
-  ESP32 -- I2C --> RTC["Real Time Clock (DS3231)"]
-  ESP32 -- USB --> USB-C
-  
-  LDO -->|3.3V| ESP32
-  LDO -->|3.3V| Display
-  LDO -->|3.3V| SDCard
-  LDO -->|3.3V| RTC
-  LDO -->|3.3V| BME688
-  LDO -->|3.3V| BatteryGauge
-```
+  %% Storage
+  ESP32 -->|SPI| SD_Card[SD Card]
+  ESP32 -->|SPI| NOR_Flash[[External NOR Flash 64MB\nW25Q02HZVED]]
+
+  %% Interfaces
+  ESP32 -->|I2C| Qwiic[[Qwilc/Stemma QT]]
+  ESP32 -->|GPIO| TestPads[Test Pads]
+
+  %% Additional Components
+  LDO -->|3.3V| LED_Reg[LED Voltage Regulator]
+  ESP32 -->|GPIO| OpenBook[OpenBook Schematic]
+
+  %% Annotations
+  classDef power fill:#ffd700,stroke:#333;
+  classDef mcu fill:#4682b4,stroke:#333;
+  classDef sensor fill:#90EE90,stroke:#333;
+  class USB_C,ESD,Charger,Battery,LDO,LED_Reg power;
+  class ESP32,DisplayDriver mcu;
+  class BME688,RTC,Qwiic sensor;
 
 ### BOM
 
