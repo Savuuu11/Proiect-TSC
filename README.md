@@ -1,7 +1,5 @@
-# OpenBook - E-book Reader Open-Source
-
-Student: Savu Alin Ion
-Grupa: 332CC
+# E-book Reader Open-Source
+Savu Alin Ion 332CC
 
 ### Diagrama
 
