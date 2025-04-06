@@ -3,6 +3,33 @@ Savu Alin Ion 332CC
 
 ### Diagrama
 
+flowchart TB
+  %% Alimentare
+  USB-C["🔌 USB-C Port"] -->|5V| Charger["⚡ Battery Charger\n(MCP73831)"]
+  Charger -->|Charge| LiPo["🔋 LiPo Battery\n(2500mAh, 3.7V)"]
+  LiPo --> LDO["🔋 3.3V LDO\n(XC6220A331MR-G)"]
+
+  %% Distribuție 3.3V
+  LDO -->|3.3V| ESP32["📟 ESP32-C6-WROOM-1"]
+  LDO -->|3.3V| Display["📺 E-Ink Display\n(Waveshare 7.5\")"]
+  LDO -->|3.3V| SDCard["💾 SD Card Slot"]
+  LDO -->|3.3V| RTC["🕒 RTC (DS3231)"]
+  LDO -->|3.3V| BME688["🌡️ BME688 Sensor"]
+  LDO -->|3.3V| FuelGauge["🔋 MAX17048"]
+
+  %% Comunicare
+  ESP32 -- SPI --> Display
+  ESP32 -- SPI --> SDCard
+  ESP32 -- I2C --> BME688
+  ESP32 -- I2C --> FuelGauge
+  ESP32 -- I2C --> RTC
+  ESP32 -- GPIO --> Buttons["🔼🔽◀️ Butoane"]
+  ESP32 -- USB --> USB-C
+
+  %% Legături secundare
+  FuelGauge -.⚠️ Alert.-> ESP32
+  RTC -.⚡ Backup.-> SuperCap["🦸 Supercapacitor"]
+
 ### BOM
 
 | Name of Component | Device                                                                       | Check Prices (J)                                                                                                     | DataSheet                                                                                                        |
