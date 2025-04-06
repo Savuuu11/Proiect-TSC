@@ -1,7 +1,4 @@
 TSC-PROJECT
-
-2. BOM - Bill of Material
-
 ## 2. BOM - Bill of Materials
 
 | Component Name         | Device/Value                          | Check Price | Datasheet |
@@ -29,4 +26,4 @@ TSC-PROJECT
 | U2                     | ESP32-C6-WROOM-1-N8                   | [Link](https://www.snapeda.com/parts/ESP32-C6-WROOM-1-N8/Espressif+Systems/view-part/?ref=eda) | [Link](https://www.snapeda.com/parts/ESP32-C6-WROOM-1-N8/Espressif+Systems/view-part/?ref=eda) |
 | U3                     | DS3231SN# (RTC)                       | [Link](https://www.snapeda.com/parts/DS3231SN%23/Analog+Devices/view-part/?ref=eda) | [Link](https://www.snapeda.com/parts/DS3231SN%23/Analog+Devices/view-part/?ref=eda) |
 | U4                     | MAX17048G+T10 (Fuel Gauge)            | [Link](https://www.snapeda.com/parts/MAX17048G+T10/Analog+Devices/view-part/?ref=eda) | [Link](https://www.snapeda.com/parts/MAX17048G+T10/Analog+Devices/view-part/?ref=eda) |
-| U5                     | MCP73831 (Charging IC)                | [Link](https://componentsearchengine.com/part-view/MCP73831T-2ATI%2FOT/Microchip) | [Link](https://componentsearchengine.com/part-view/MCP73831T-2ATI%2FOT/Microchip) |
+| U5                     | MCP73831 (Charging IC)                | [Link](https://componentsearchengine.com/part-view/MCP73831T-2ATI%2FOT/Microchip) | [Link](https://componentsearchengine.com/part-view/MCP73831T-2ATI%2FOT/Microchip) |
