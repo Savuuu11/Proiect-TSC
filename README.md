@@ -3,6 +3,8 @@ Savu Alin Ion 332CC
 
 ### Diagrama
 
+![Hardware Diagram](Images/diagram.png)
+
 @startuml
 skinparam rectangle {
     BackgroundColor #EFEFEF
