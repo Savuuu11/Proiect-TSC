@@ -1,7 +1,11 @@
-TSC-PROJECT
+# OpenBook - E-book Reader Open-Source
 
+Student: Savu Alin Ion
+Grupa: 332CC
 
-## 2. BOM - Bill of Materials
+### Diagrama
+
+### BOM
 
 | Name of component | Device                                       | Check Prices                                                                                                | DataSheet                                                                                                 |
 |-------------------|----------------------------------------------|-----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
@@ -154,3 +158,6 @@ TSC-PROJECT
 
 ---
 
+### Conluzii
+A fost un proiect foarte muncitoresc, care merita mai mult decat 2 pct.
+Timp de lucru: 70h
