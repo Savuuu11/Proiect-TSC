@@ -93,4 +93,4 @@ Backup Energie: Supercondensator sau baterie mică menține timpul chiar și fă
 10. Memorie Flash Externă
 W25Q512JVEIQ: Conectată prin interfață Quad SPI, oferind viteză ridicată de citire/scriere (până la 133 MHz).
 
-
+Utilizare: Stochează firmware, setări și conținut utilizator (ex: cărți electronice).
