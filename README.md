@@ -17,54 +17,100 @@ TSC-PROJECT
 
 
 ## Descriere Funcționalități Hardware
-1. Unitate de Control – ESP32-C6
-Dispozitivul utilizează ESP32-C6-WROOM-1, un microcontroller bazat pe o arcelă RISC-V de 32 de biți, operând la o frecvență maximă de 160 MHz.
 
-Memorie:
+---
 
-512 KB SRAM integrat pentru procesare rapidă.
+## 1. Unitate de Control – ESP32-C6  
+- **Microcontroller**: `ESP32-C6-WROOM-1` (32-bit RISC-V @ 160 MHz)  
+- **Memorie**:  
+  - 512 KB SRAM integrat pentru procesare rapidă.  
+  - 8 MB flash extern (`W25Q512JVEIQ`) pentru stocare persistentă.  
+- **Conectivitate**:  
+  - Wi-Fi 6 (802.11ax), Bluetooth Low Energy 5.  
+  - Port USB 2.0 (full-speed).  
+- **Periferice**:  
+  - SPI, I²C, UART.  
+  - 22 de pini GPIO configurabili.  
+- **Eficiență energetică**:  
+  - Moduri `sleep` și `deep sleep` (<10µA).  
 
-8 MB memorie flash externă (W25Q512JVEIQ) pentru stocare persistentă.
+---
 
-Conectivitate:
+## 2. Afișaj E-Ink (7.5 inch)  
+- **Model**: Waveshare 800×480 px.  
+- **Interfață**:  
+  - SPI 4-fire (CS, DC, RST, BUSY).  
+- **Consum energie**:  
+  - **0W** în stare statică.  
+  - Vârf de **25mA** la actualizare.  
+- **Beneficiu**:  
+  - Imagine persistentă fără alimentare.  
 
-Wi-Fi 6 (802.11ax), Bluetooth Low Energy 5, port USB 2.0 (full-speed).
+---
 
-Periferice: Interfețe SPI, I²C, UART și 22 de pini GPIO configurabili.
+## 3. Senzor Multi-Parametru – BME680  
+- **Măsurători**:  
+  - Temperatură (±0.5°C), umiditate (±3%), presiune atmosferică, VOC.  
+- **Interfață**: I²C @ 400 kHz.  
+- **Consum**:  
+  - 2.1µA în standby, 3.7mA în activitate.  
+- **Avantaj**: Integrare 4-în-1 într-un singur cip.  
 
-Eficiență Energetică: Modele de operare sleep și deep sleep (<10µA) pentru economisire baterie.
+---
 
-2. Afișaj E-Ink (7.5 inch)
-Afișajul Waveshare (rezoluție 800×480 px) oferă o experiență de citire fără oboseală oculară.
+## 4. Sistem de Management al Energiei  
+- **Baterie**: Li-Po 2500mAh (3.7V).  
+- **Încărcare**:  
+  - Controler `MCP73831` (1A via USB-C).  
+- **Monitorizare**:  
+  - `MAX17048` pentru nivel încărcare, tensiune și alertă.  
+- **Regulator LDO**:  
+  - `XC6220A331MR-G` (3.3V stabil).  
 
-Interfață: Comunicare prin SPI 4-fire, cu semnale dedicate (CS, DC, RST, BUSY).
+---
 
-Consum Energie:
+## 5. Interfață Utilizator – Butoane Tactile  
+- **3 butoane** pentru navigare, selecție și control.  
+- **Debouncing**:  
+  - Hardware (circuite RC) sau software.  
 
-0W în stare statică (imaginea rămâne vizibilă fără alimentare).
+---
 
-Vârf de 25mA în timpul actualizării afișajului.
-Beneficiu: Ideal pentru aplicații cu autonomie ridicată datorită lipsei consumului în afara perioadelor de refresh.
+## 6. Port USB-C  
+- **Funcții**:  
+  - Încărcare baterie și transfer date.  
+- **Protecție**:  
+  - Diodă ESD `USBLC6-2SC6Y`.  
 
-3. Senzor Multi-Parametru – BME680
-Funcționalități:
+---
 
-Măsurători precise pentru temperatură (±0.5°C), umiditate (±3%), presiune atmosferică și compuși organici volatili (VOC).
+## 7. Conector Qwiic pentru Expansiune  
+- **4 pini standard**: VCC, GND, SDA, SCL.  
+- **Scop**: Conectare senzori I²C externi (ex: senzor de lumină).  
 
-Interfață: Magistrală I²C la 400 kHz, partajată cu alte componente.
+---
 
-Consum: Doar 2.1µA în standby și până la 3.7mA în activitate.
-Avantaj: Integrarea a patru senzori într-un singur cip simplifică designul și reduce costurile.
+## 8. Slot MicroSD  
+- **Conector**: `112A-TAAR-R03`.  
+- **Capacitate**: Suportă carduri microSD (stocare e-book-uri/log-uri).  
+- **Interfață**: Configurabilă SPI/SD.  
 
-4. Sistem de Management al Energiei
-Baterie: Li-Po 2500mAh (3.7V) pentru ore întregi de funcționare.
+---
 
-Încărcare: Modulul MCP73831 asigură încărcare sigură prin USB-C la curent de până la 1A.
+## 9. Ceas Real-Time (DS3231)  
+- **Precizie**: ±2ppm.  
+- **Backup**: Supercondensator/baterie secundară.  
 
-Monitorizare Baterie: MAX17048 urmărește nivelul de încărcare și tensiune în timp real, comunicând prin I²C.
+---
 
-Regulator LDO: XC6220A331MR-G generează o tensiune stabilă de 3.3V pentru circuitele sensibile.
+## 10. Memorie Flash Externă  
+- **Model**: `W25Q512JVEIQ`.  
+- **Interfață**: Quad SPI (133 MHz).  
+- **Utilizare**: Firmware, setări, conținut utilizator.  
 
+--- 
+
+🛠 **Diagramă Simplificată**:  
 5. Interfață Utilizator – Butoane Tactile
 3 butoane cu feedback tactil pentru navigare, selecție și control.
 
