@@ -4,31 +4,44 @@ Savu Alin Ion 332CC
 ### Diagrama
 
 flowchart TB
-  %% Alimentare
-  USB-C["🔌 USB-C Port"] -->|5V| Charger["⚡ Battery Charger\n(MCP73831)"]
-  Charger -->|Charge| LiPo["🔋 LiPo Battery\n(2500mAh, 3.7V)"]
-  LiPo --> LDO["🔋 3.3V LDO\n(XC6220A331MR-G)"]
+  %% Power Section
+  USB_C[("USB-C Port")] --> ESD[ESD Protection]
+  ESD -->|5V| Charger[[Li-Po Charging Controller]]
+  Charger -->|Charges| Battery[("Li-Po Battery")]
+  Battery --> LDO[[3.3V LDO]]
+  
+  %% Microcontroller
+  LDO -->|3.3V| ESP32[[ESP32-C6]]
+  ESP32 -->|Reset/Boot| Button[IO Button]
+  LDO -->|3.3V| VoltageSupervisor[Voltage Supervisor]
+  VoltageSupervisor --> ESP32
 
-  %% Distribuție 3.3V
-  LDO -->|3.3V| ESP32["📟 ESP32-C6-WROOM-1"]
-  LDO -->|3.3V| Display["📺 E-Ink Display\n(Waveshare 7.5\")"]
-  LDO -->|3.3V| SDCard["💾 SD Card Slot"]
-  LDO -->|3.3V| RTC["🕒 RTC (DS3231)"]
-  LDO -->|3.3V| BME688["🌡️ BME688 Sensor"]
-  LDO -->|3.3V| FuelGauge["🔋 MAX17048"]
+  %% Display
+  LDO -->|3.3V| EPD_Power[EPD Power]
+  EPD_Power --> EPD[E-Paper Display]
+  ESP32 -->|SPI| DisplayDriver[E-Paper Drive Circuit]
+  DisplayDriver --> EPD
+  ESP32 -->|GPIO| DisplaySelector[Display Type Selector]
 
-  %% Comunicare
-  ESP32 -- SPI --> Display
-  ESP32 -- SPI --> SDCard
-  ESP32 -- I2C --> BME688
-  ESP32 -- I2C --> FuelGauge
-  ESP32 -- I2C --> RTC
-  ESP32 -- GPIO --> Buttons["🔼🔽◀️ Butoane"]
-  ESP32 -- USB --> USB-C
+  %% Sensors & Peripherals
+  ESP32 -->|I2C| BME688[[BME688 Sensor]]
+  ESP32 -->|I2C| RTC[[DS3231SN RTC]]
+  ESP32 -->|SPI| NOR_Flash[[64MB NOR Flash\n(W25Q02HZVED)]]
 
-  %% Legături secundare
-  FuelGauge -.⚠️ Alert.-> ESP32
-  RTC -.⚡ Backup.-> SuperCap["🦸 Supercapacitor"]
+  %% Storage
+  ESP32 -->|SPI| SD_Card[SD Card Slot]
+
+  %% Interfaces
+  ESP32 -->|I2C| Qwiic[[Qwiic/Stemma QT]]
+  ESP32 -->|GPIO| TestPads[Test Pads]
+
+  %% Annotations
+  classDef power fill:#f9d56e,stroke:#333;
+  classDef mcu fill:#85c1e9,stroke:#333;
+  classDef sensor fill:#a2d9ce,stroke:#333;
+  class USB_C,ESD,Charger,Battery,LDO power;
+  class ESP32,DisplayDriver mcu;
+  class BME688,RTC,Qwiic sensor;
 
 ### BOM
 
